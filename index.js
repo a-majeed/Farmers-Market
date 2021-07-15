@@ -1,5 +1,7 @@
 const fs = require('fs');
 const http = require('http');
+const url = require('url');
+
 
 
 // Blocking, sychronous code
@@ -21,6 +23,23 @@ const http = require('http');
 // SERVER
 
 const server = http.createServer((req, res) => {
+    const pathName = req.url;
+
+    if(pathName === '/overview' || pathName === '/'){
+        res.end('This is the OVERVIEW');
+    }
+    else if (pathName === '/product'){
+        res.end('This is the PRODUCT');
+    }
+    else if (pathName === '/api'){
+
+        fs.readFile(`${__dirname}/dev-data/data.json`, 'utf-8', (err,data) =>{
+            const productData = JSON.parse(data);
+            console.log(productData);
+        });
+        res.end('API');
+    }
+    
     res.end('Hello from the server!');
 });
 
